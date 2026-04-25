@@ -10,12 +10,35 @@ public class LizardController : MonoBehaviour
     private SpringJoint tongueJoint;
     public ConfigurableJoint tailJoint;
 
-
-    public float force = 50f;
+    public float force = 100f;
     public float torqueForce = 10f;
+
+    void Start()
+    {
+        Debug.Log("LizardController ทำงานแล้ว");
+    }
 
     void Update()
     {
+        if (Input.GetKey(KeyCode.W))
+{
+    body.AddForce(transform.forward * force);
+}
+
+        // 🔍 เช็คว่าปุ่มทำงานไหม
+        if (Input.GetKey(KeyCode.Q))
+    
+{
+    Debug.Log("กด Q แล้ว");
+}
+if (Input.GetKey(KeyCode.E)) Debug.Log("E");
+if (Input.GetKey(KeyCode.A)) Debug.Log("A");
+if (Input.GetKey(KeyCode.D)) Debug.Log("D");
+if (Input.GetKey(KeyCode.S)) Debug.Log("S");
+if (Input.GetKey(KeyCode.X)) Debug.Log("X");
+if (Input.GetKey(KeyCode.W)) Debug.Log("W");
+if (Input.GetKey(KeyCode.G)) Debug.Log("G");
+
         // 🐾 ควบคุมขา
         if (Input.GetKey(KeyCode.Q))
             frontL.AddForce(transform.forward * force);
@@ -43,48 +66,58 @@ public class LizardController : MonoBehaviour
             Vector3 dir = hit.point - head.position;
             head.AddTorque(dir.normalized * torqueForce);
         }
-        
+
+        // 👅 ลิ้น
         if (Input.GetKeyDown(KeyCode.W))
         {
-        ShootTongue();
+            ShootTongue();
         }
 
         if (Input.GetKeyUp(KeyCode.W))
         {
-        ReleaseTongue();
+            ReleaseTongue();
         }
+
+        // 🐍 สลัดหาง
         if (Input.GetKeyDown(KeyCode.G))
-    {
-        DetachTail();
+        {
+            DetachTail();
+        }
     }
-    }
+
     void ShootTongue()
-{
-    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-    if (Physics.Raycast(ray, out RaycastHit hit, 20f))
     {
-        tongueJoint = head.gameObject.AddComponent<SpringJoint>();
-        tongueJoint.connectedBody = hit.rigidbody;
-        tongueJoint.spring = 200f;
-        tongueJoint.damper = 10f;
-    }
-}
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-void ReleaseTongue()
-{
-    if (tongueJoint != null)
-        Destroy(tongueJoint);
-}
-void OnCollisionStay(Collision col)
-{
-    if (col.gameObject.CompareTag("Wall"))
-    {
-        body.AddForce(-col.contacts[0].normal * 50f);
+        if (Physics.Raycast(ray, out RaycastHit hit, 20f))
+        {
+            if (hit.rigidbody != null)
+            {
+                tongueJoint = head.gameObject.AddComponent<SpringJoint>();
+                tongueJoint.connectedBody = hit.rigidbody;
+                tongueJoint.spring = 200f;
+                tongueJoint.damper = 10f;
+            }
+        }
     }
-}
-void DetachTail()
-{
-    Destroy(tailJoint);
-}
+
+    void ReleaseTongue()
+    {
+        if (tongueJoint != null)
+            Destroy(tongueJoint);
+    }
+
+    void OnCollisionStay(Collision col)
+    {
+        if (col.gameObject.CompareTag("Wall"))
+        {
+            body.AddForce(-col.contacts[0].normal * 50f);
+        }
+    }
+
+    void DetachTail()
+    {
+        if (tailJoint != null)
+            Destroy(tailJoint);
+    }
 }
