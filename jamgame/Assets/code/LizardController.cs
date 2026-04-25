@@ -9,7 +9,9 @@ public class LizardController : MonoBehaviour
     public Rigidbody body;
     public Rigidbody tail;
 
-    public float force = 50f;
+    public ConfigurableJoint tailJoint;
+
+    public float force = 10f;
 
     void Update()
     {
@@ -34,5 +36,11 @@ public class LizardController : MonoBehaviour
         // หาง
         if (Input.GetKey(KeyCode.X))
             tail.AddForce(Vector3.left * force);
+
+        // สลัดหาง
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Destroy(tailJoint);
+        }
     }
 }
