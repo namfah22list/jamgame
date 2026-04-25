@@ -559,13 +559,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284820732}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.09, y: 0.358, z: -0.099}
-  m_LocalScale: {x: 0.01980198, y: 0.014144273, z: 0.025282528}
+  m_LocalRotation: {x: 0.018621387, y: 0.97181, z: -0.22019157, w: 0.08218503}
+  m_LocalPosition: {x: -1.3, y: 8.8, z: 9}
+  m_LocalScale: {x: 1, y: 0.85155624, z: 1.1604677}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1339221401}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 390282372}
+  m_LocalEulerAnglesHint: {x: 25.533, y: 170.332, z: 0}
 --- !u!114 &284820736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,6 +718,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 270}
+--- !u!1 &390282371 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7242470411219232200, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
+  m_PrefabInstance: {fileID: 4627568972603358656}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &390282372 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9164654803122867364, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
+  m_PrefabInstance: {fileID: 4627568972603358656}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &390282373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390282371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd50398ba1b08748bd66ecf9cb0d52b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 284820734}
+  walkSpeed: 5
+  sprintSpeed: 8
+  jumpHeight: 2
+  gravity: -9.81
+  mouseSensitivity: 2
+  verticalLookLimit: 85
+  walkBobFrequency: 1.8
+  walkBobAmplitude: 0.05
+  sprintBobFrequency: 2.5
+  sprintBobAmplitude: 0.1
+  landingImpact: 0.3
+  landingSpeedThreshold: -10
+  jumpTiltAngle: 8
+  baseFOV: 60
+  sprintFOV: 75
+  fovChangeSpeed: 8
+  swayAmount: 0.02
+  swaySmoothness: 8
+  lockCursor: 1
+  footstepSource: {fileID: 0}
+  footstepClip: {fileID: 0}
+  landingSource: {fileID: 0}
+  landingClip: {fileID: 0}
+  maxStamina: 5
+  staminaRegenRate: 1
+  staminaDrainRate: 1
+  animator: {fileID: 0}
+--- !u!143 &390282374
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390282371}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &394383786
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -990,6 +1065,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2221389409316987318, guid: a32fa21adb0244ecaac632b6d2a867b2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 827699881}
+    - targetCorrespondingSourceObject: {fileID: 2221389409316987318, guid: a32fa21adb0244ecaac632b6d2a867b2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 827699883}
   m_SourcePrefab: {fileID: 100100000, guid: a32fa21adb0244ecaac632b6d2a867b2, type: 3}
 --- !u!1001 &758416338
 PrefabInstance:
@@ -1092,6 +1170,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &827699883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827699876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e58572e0c2c5f14f9386730dba57cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openForce: 5
+  returnForce: 2
+  maxAngle: 90
 --- !u!1001 &994219147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1557,80 +1650,16 @@ GameObject:
   - component: {fileID: 1339221400}
   - component: {fileID: 1339221399}
   - component: {fileID: 1339221398}
-  - component: {fileID: 1339221397}
-  - component: {fileID: 1339221396}
+  - component: {fileID: 1339221402}
+  - component: {fileID: 1339221403}
+  - component: {fileID: 1339221404}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1339221396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339221395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd50398ba1b08748bd66ecf9cb0d52b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 284820734}
-  walkSpeed: 100
-  sprintSpeed: 500
-  jumpHeight: 2
-  gravity: -9.81
-  mouseSensitivity: 2
-  verticalLookLimit: 85
-  walkBobFrequency: 1.8
-  walkBobAmplitude: 0.05
-  sprintBobFrequency: 2.5
-  sprintBobAmplitude: 0.1
-  landingImpact: 0.3
-  landingSpeedThreshold: -10
-  jumpTiltAngle: 8
-  baseFOV: 60
-  sprintFOV: 75
-  fovChangeSpeed: 8
-  swayAmount: 0.02
-  swaySmoothness: 8
-  lockCursor: 1
-  footstepSource: {fileID: 0}
-  footstepClip: {fileID: 0}
-  landingSource: {fileID: 0}
-  landingClip: {fileID: 0}
-  maxStamina: 5
-  staminaRegenRate: 1
-  staminaDrainRate: 1
-  animator: {fileID: 0}
---- !u!143 &1339221397
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339221395}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_IsActive: 0
 --- !u!136 &1339221398
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1716,13 +1745,104 @@ Transform:
   m_GameObject: {fileID: 1339221395}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 59.76466, y: 45.3, z: -16.1}
+  m_LocalPosition: {x: 59.76466, y: 69.3, z: -16.1}
   m_LocalScale: {x: 50.5, y: 60.20502, z: 45.9}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 284820735}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1339221402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339221395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd50398ba1b08748bd66ecf9cb0d52b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 284820734}
+  walkSpeed: 5
+  sprintSpeed: 8
+  jumpHeight: 2
+  gravity: -9.81
+  mouseSensitivity: 2
+  verticalLookLimit: 85
+  walkBobFrequency: 1.8
+  walkBobAmplitude: 0.05
+  sprintBobFrequency: 2.5
+  sprintBobAmplitude: 0.1
+  landingImpact: 0.3
+  landingSpeedThreshold: -10
+  jumpTiltAngle: 8
+  baseFOV: 60
+  sprintFOV: 75
+  fovChangeSpeed: 8
+  swayAmount: 0.02
+  swaySmoothness: 8
+  lockCursor: 1
+  footstepSource: {fileID: 0}
+  footstepClip: {fileID: 0}
+  landingSource: {fileID: 0}
+  landingClip: {fileID: 0}
+  maxStamina: 5
+  staminaRegenRate: 1
+  staminaDrainRate: 1
+  animator: {fileID: 0}
+--- !u!54 &1339221403
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339221395}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 2
+  m_CollisionDetection: 0
+--- !u!143 &1339221404
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339221395}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1368208075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2501,7 +2621,7 @@ GameObject:
   - component: {fileID: 1985516048}
   - component: {fileID: 1985516047}
   - component: {fileID: 1985516046}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2889,8 +3009,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 9164654803122867364, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 284820735}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7242470411219232200, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 390282374}
+    - targetCorrespondingSourceObject: {fileID: 7242470411219232200, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 390282373}
   m_SourcePrefab: {fileID: 100100000, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
