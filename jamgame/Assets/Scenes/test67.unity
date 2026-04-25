@@ -1850,7 +1850,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 9164654803122867364, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1789678870}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7242470411219232200, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
       insertIndex: -1
@@ -3023,12 +3026,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789678867}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08549401, y: -0, z: -0, w: 0.9963387}
-  m_LocalPosition: {x: -22.66, y: 46.44, z: -19.62}
+  m_LocalRotation: {x: 0.0072044292, y: 0.9927948, z: -0.08518992, w: 0.0839597}
+  m_LocalPosition: {x: -1.51, y: 5.22, z: 14.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1880103917}
   m_LocalEulerAnglesHint: {x: 9.809, y: 0, z: 0}
 --- !u!114 &1789678871
 MonoBehaviour:
@@ -3551,8 +3554,13 @@ MonoBehaviour:
   cam: {fileID: 1789678869}
   tongueLine: {fileID: 331730447}
   tailJoint: {fileID: 1738642973}
-  force: 500
+  force: 100
   torqueForce: 10
+--- !u!4 &1880103917 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9164654803122867364, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
+  m_PrefabInstance: {fileID: 1738642941}
+  m_PrefabAsset: {fileID: 0}
 --- !u!65 &2110824938
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3986,7 +3994,6 @@ ConfigurableJoint:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1789678870}
   - {fileID: 828726047}
   - {fileID: 1012764179}
   - {fileID: 1738642941}
