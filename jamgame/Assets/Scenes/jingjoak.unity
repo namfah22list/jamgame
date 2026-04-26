@@ -1397,6 +1397,28 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &314881118 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4491690815841862953, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+  m_PrefabInstance: {fileID: 1577732009}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &314881121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314881118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d08ba2cf21e6a4d80022d378bba9f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 0
+  hpSlider: {fileID: 0}
+  hpText: {fileID: 0}
+  isDead: 0
 --- !u!1 &324290889
 GameObject:
   m_ObjectHideFlags: 0
@@ -6858,10 +6880,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: jingjok Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4491690815841862953, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4491690815841862953, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 314881121}
   m_SourcePrefab: {fileID: 100100000, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
 --- !u!4 &1684882306 stripped
 Transform:
@@ -10898,6 +10927,7 @@ GameObject:
   - component: {fileID: 8741682495542553003}
   - component: {fileID: 8741682495542553002}
   - component: {fileID: 8741682495542553004}
+  - component: {fileID: 8741682495542553005}
   m_Layer: 0
   m_Name: _cattt
   m_TagString: Untagged
@@ -11030,7 +11060,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_UseGeometry: 0
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
@@ -11039,9 +11069,31 @@ MonoBehaviour:
   m_TileSize: 256
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
+  m_MinRegionArea: 0
   m_NavMeshData: {fileID: 23800000, guid: 0f6dbf5579b13964d84f0faefad6f0e1, type: 2}
   m_BuildHeightMesh: 0
+--- !u!195 &8741682495542553005
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8222272500464104210}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: -0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!23 &8814668638741032433
 MeshRenderer:
   m_ObjectHideFlags: 0

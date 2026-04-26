@@ -5,11 +5,11 @@ public class CatEnemy : MonoBehaviour
 {
     public enum CatState { Patrol, Chase, Attack }
     public CatState currentState = CatState.Patrol;
-    private CatWalk catWalk;
+
     [Header("Detection")]
-    public float detectionRange = 10f;  // รัศมีมองเห็น Player
-    public float attackRange = 2f;   // รัศมีโจมตี
-    public float loseRange = 15f;  // ไกลเกินนี้ → หยุดไล่
+    public float detectionRange = 10f;
+    public float attackRange = 2f;
+    public float loseRange = 15f;
 
     [Header("Movement")]
     public float patrolSpeed = 2f;
@@ -20,36 +20,37 @@ public class CatEnemy : MonoBehaviour
     public float attackCooldown = 1.5f;
 
     [Header("Patrol Waypoints")]
-    public Transform[] waypoints;  // ลาก Waypoint มาใส่ตรงนี้
+    public Transform[] waypoints;
 
-    // References
     private NavMeshAgent agent;
     private Transform player;
-    private Animator anim;
+    private CatWalk catWalk;
 
-    // Private state
     private int currentWaypoint = 0;
     private float attackTimer = 0f;
 
     void Start()
     {
-
-        catWalk = GetComponent<CatWalk>();
         agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        catWalk = GetComponent<CatWalk>();
+
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+            player = playerObj.transform;
+        else
+            Debug.LogError("หา Player ไม่เจอ! ตรวจสอบว่า Player มี Tag = Player");
+
+        if (waypoints.Length > 0)
+            agent.SetDestination(waypoints[0].position);
     }
 
     void Update()
     {
-        if (catWalk != null)
-            catWalk.moveSpeed = agent.velocity.magnitude;
+        if (player == null) return;
 
         attackTimer -= Time.deltaTime;
-
         float distToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // ── เลือก State ──────────────────────────────
         switch (currentState)
         {
             case CatState.Patrol:
@@ -72,83 +73,57 @@ public class CatEnemy : MonoBehaviour
                     ChangeState(CatState.Chase);
                 break;
         }
+
+        if (catWalk != null)
+            catWalk.moveSpeed = agent.velocity.magnitude;
     }
 
-    // ── Patrol ───────────────────────────────────────
     void DoPatrol()
     {
         if (waypoints.Length == 0) return;
 
         agent.speed = patrolSpeed;
 
-        // ถึง Waypoint แล้ว → ไป Waypoint ถัดไป
         if (agent.remainingDistance < 0.5f && !agent.pathPending)
         {
             currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
             agent.SetDestination(waypoints[currentWaypoint].position);
         }
-
-        anim?.SetFloat("Speed", agent.velocity.magnitude);
     }
 
-    // ── Chase ────────────────────────────────────────
     void DoChase()
     {
         agent.speed = chaseSpeed;
         agent.SetDestination(player.position);
-
-        anim?.SetFloat("Speed", agent.velocity.magnitude);
     }
 
-    // ── Attack ───────────────────────────────────────
     void DoAttack()
     {
-        agent.SetDestination(transform.position); // หยุดเดิน
-        transform.LookAt(player);                 // หันหน้าหา Player
-
-        anim?.SetFloat("Speed", 0f);
+        agent.SetDestination(transform.position);
+        transform.LookAt(player);
 
         if (attackTimer <= 0f)
         {
             attackTimer = attackCooldown;
-            anim?.SetTrigger("Attack");
-
-            // ดึง Health Script จาก Player แล้วลดเลือด
             player.GetComponent<PlayerHealth>()?.TakeDamage(attackDamage);
-
             Debug.Log($"แมวโจมตี! -{attackDamage} HP");
         }
     }
 
-    // ── เปลี่ยน State ────────────────────────────────
     void ChangeState(CatState newState)
     {
         currentState = newState;
 
-        switch (newState)
-        {
-            case CatState.Patrol:
-                agent.SetDestination(waypoints[currentWaypoint].position);
-                anim?.SetBool("IsChasing", false);
-                break;
-            case CatState.Chase:
-                anim?.SetBool("IsChasing", true);
-                break;
-            case CatState.Attack:
-                anim?.SetBool("IsChasing", false);
-                break;
-        }
+        if (newState == CatState.Patrol && waypoints.Length > 0)
+            agent.SetDestination(waypoints[currentWaypoint].position);
     }
 
-    // ── Gizmos (แสดง Range ใน Scene view) ───────────
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
-
         Gizmos.color = Color.gray;
         Gizmos.DrawWireSphere(transform.position, loseRange);
     }
