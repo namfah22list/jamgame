@@ -498,7 +498,7 @@ GameObject:
   - component: {fileID: 1818549660}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: wall
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -600,6 +600,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2119147986135387233, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+      propertyPath: maxSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119147986135387233, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+      propertyPath: clingForce
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119147986135387233, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+      propertyPath: forwardAssistForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2576399553113257415, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
       propertyPath: m_LocalScale.y
       value: 115.55607
