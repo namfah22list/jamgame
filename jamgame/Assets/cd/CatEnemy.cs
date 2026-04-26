@@ -40,22 +40,27 @@ public class CatEnemy : MonoBehaviour
         else
             Debug.LogError("หา Player ไม่เจอ! ตรวจสอบว่า Player มี Tag = Player");
 
-        // รอ 1 frame ให้ NavMesh Agent พร้อมก่อน
-        Invoke(nameof(Init), 0.1f);
-    }
+        Debug.Log($"Start ถูกเรียก! waypoints.Length = {waypoints.Length}");
 
-    void Init()
-    {
         if (waypoints.Length > 0)
+        {
+            NavMeshHit hit;
+            foreach (var wp in waypoints)
+            {
+                bool onMesh = NavMesh.SamplePosition(wp.position, out hit, 1.0f, NavMesh.AllAreas);
+                Debug.Log($"Waypoint {wp.name} อยู่บน NavMesh: {onMesh}");
+            }
             agent.SetDestination(waypoints[0].position);
+        }
         isReady = true;
     }
 
     void Update()
     {
+        Debug.Log($"State: {currentState} | isReady: {isReady} | hasPath: {agent.hasPath} | remainingDist: {agent.remainingDistance} | velocity: {agent.velocity.magnitude}");
+
         if (!isReady || player == null) return;
 
-        // ถ้าตายแล้วให้หยุด
         CatEnemyHealth health = GetComponent<CatEnemyHealth>();
         if (health != null && health.currentHP <= 0)
         {
@@ -100,7 +105,6 @@ public class CatEnemy : MonoBehaviour
         if (waypoints.Length == 0) return;
         agent.speed = patrolSpeed;
 
-        // เพิ่ม hasPath เช็คด้วยให้แน่ใจ
         if (!agent.pathPending && agent.hasPath && agent.remainingDistance < 0.5f)
         {
             currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
