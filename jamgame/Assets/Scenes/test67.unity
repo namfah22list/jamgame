@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!54 &674724346 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 8263417020792715221, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+  m_PrefabInstance: {fileID: 122680355426036517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &704048126
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +605,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2119147986135387233, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+      propertyPath: tail
+      value: 
+      objectReference: {fileID: 674724346}
     - target: {fileID: 2119147986135387233, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
       propertyPath: maxSpeed
       value: 3

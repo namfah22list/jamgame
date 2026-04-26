@@ -19,6 +19,10 @@ public class LizardController : MonoBehaviour
     public float stickToGroundForce = 25f;
     public float moveAssist = 20f;
 
+    [Header("Front Leg")]
+    public float frontLegForce = 8f;
+    public float frontLegLift = 5f;
+
     void Update()
     {
         // 🎥 ทิศจากกล้อง
@@ -31,27 +35,35 @@ public class LizardController : MonoBehaviour
         forward.Normalize();
         right.Normalize();
 
-        // 🟢 เดินหน้า (ง่ายขึ้น)
+        // 🟢 เดินหน้า
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
             body.AddForce(forward * moveForce, ForceMode.Acceleration);
 
-            // 🦎 ขาแค่ช่วยเล็กน้อย
             backL.AddForce(forward * 3f, ForceMode.Acceleration);
             backR.AddForce(forward * 3f, ForceMode.Acceleration);
         }
 
-        // 🔵 เลี้ยว
+        // 🟢 Q = ขาหน้าซ้าย + เลี้ยว
         if (Input.GetKey(KeyCode.Q))
         {
             body.AddTorque(Vector3.up * -turnForce, ForceMode.Acceleration);
-            frontL.AddForce(-right * 2f, ForceMode.Acceleration);
+
+            Vector3 lift = Vector3.up * frontLegLift;
+            Vector3 push = -right * frontLegForce;
+
+            frontL.AddForce(lift + push, ForceMode.Acceleration);
         }
 
+        // 🔵 E = ขาหน้าขวา + เลี้ยว
         if (Input.GetKey(KeyCode.E))
         {
             body.AddTorque(Vector3.up * turnForce, ForceMode.Acceleration);
-            frontR.AddForce(right * 2f, ForceMode.Acceleration);
+
+            Vector3 lift = Vector3.up * frontLegLift;
+            Vector3 push = right * frontLegForce;
+
+            frontR.AddForce(lift + push, ForceMode.Acceleration);
         }
 
         // 🟣 หางช่วยดัน
@@ -63,13 +75,11 @@ public class LizardController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 🟫 เช็คพื้น + ช่วยเดิน
+        // 🟫 เช็คพื้น + assist
         if (Physics.Raycast(body.position, Vector3.down, out RaycastHit hit, groundCheckDistance))
         {
-            // 🧲 ดูดติดพื้น (กันลอย)
             body.AddForce(-hit.normal * stickToGroundForce, ForceMode.Acceleration);
 
-            // 🔥 assist เดิน
             Vector3 forward = cam.transform.forward;
             forward.y = 0;
             forward.Normalize();
@@ -79,6 +89,11 @@ public class LizardController : MonoBehaviour
                 body.AddForce(forward * moveAssist, ForceMode.Acceleration);
             }
         }
+
+        // 🔥 เด้งขาหน้าเล็กน้อย (ให้ดูมีชีวิต)
+        float bounce = Mathf.Sin(Time.time * 10f) * 0.5f;
+        frontL.AddForce(Vector3.up * bounce, ForceMode.Acceleration);
+        frontR.AddForce(Vector3.up * bounce, ForceMode.Acceleration);
 
         // 🔒 จำกัดความเร็ว
         Vector3 flatVel = new Vector3(body.velocity.x, 0, body.velocity.z);
@@ -96,7 +111,7 @@ public class LizardController : MonoBehaviour
         // 🧊 หน่วง
         body.velocity *= 0.97f;
 
-        // 🔥 กันลื่นด้านข้าง
+        // 🔥 กันลื่น
         Vector3 lateral = Vector3.Project(body.velocity, transform.right);
         body.velocity -= lateral * 0.2f;
     }
