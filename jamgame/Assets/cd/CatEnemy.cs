@@ -40,25 +40,14 @@ public class CatEnemy : MonoBehaviour
         else
             Debug.LogError("หา Player ไม่เจอ! ตรวจสอบว่า Player มี Tag = Player");
 
-        Debug.Log($"Start ถูกเรียก! waypoints.Length = {waypoints.Length}");
-
         if (waypoints.Length > 0)
-        {
-            NavMeshHit hit;
-            foreach (var wp in waypoints)
-            {
-                bool onMesh = NavMesh.SamplePosition(wp.position, out hit, 1.0f, NavMesh.AllAreas);
-                Debug.Log($"Waypoint {wp.name} อยู่บน NavMesh: {onMesh}");
-            }
             agent.SetDestination(waypoints[0].position);
-        }
+
         isReady = true;
     }
 
     void Update()
     {
-        Debug.Log($"State: {currentState} | isReady: {isReady} | hasPath: {agent.hasPath} | remainingDist: {agent.remainingDistance} | velocity: {agent.velocity.magnitude}");
-
         if (!isReady || player == null) return;
 
         CatEnemyHealth health = GetComponent<CatEnemyHealth>();
@@ -73,6 +62,8 @@ public class CatEnemy : MonoBehaviour
 
         float distToPlayer = Vector3.Distance(transform.position, player.position);
 
+        Debug.Log($"State: {currentState} | dist: {distToPlayer}");
+
         switch (currentState)
         {
             case CatState.Patrol:
@@ -82,6 +73,7 @@ public class CatEnemy : MonoBehaviour
                 break;
 
             case CatState.Chase:
+                Debug.Log("อยู่ใน Chase case!");
                 DoChase();
                 if (distToPlayer < attackRange)
                     ChangeState(CatState.Attack);
@@ -115,7 +107,11 @@ public class CatEnemy : MonoBehaviour
     void DoChase()
     {
         agent.speed = chaseSpeed;
-        agent.SetDestination(player.position);
+        Vector3 targetPos = new Vector3(player.position.x, transform.position.y, player.position.z);
+        NavMeshHit hit;
+        bool canReach = NavMesh.SamplePosition(targetPos, out hit, 5f, NavMesh.AllAreas);
+        Debug.Log($"Chase canReach: {canReach}");
+        agent.SetDestination(hit.position);
     }
 
     void DoAttack()
