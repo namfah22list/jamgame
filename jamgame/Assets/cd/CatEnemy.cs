@@ -25,9 +25,9 @@ public class CatEnemy : MonoBehaviour
     private NavMeshAgent agent;
     private Transform player;
     private CatWalk catWalk;
-
     private int currentWaypoint = 0;
     private float attackTimer = 0f;
+    private bool isReady = false;
 
     void Start()
     {
@@ -40,15 +40,32 @@ public class CatEnemy : MonoBehaviour
         else
             Debug.LogError("หา Player ไม่เจอ! ตรวจสอบว่า Player มี Tag = Player");
 
+        // รอ 1 frame ให้ NavMesh Agent พร้อมก่อน
+        Invoke(nameof(Init), 0.1f);
+    }
+
+    void Init()
+    {
         if (waypoints.Length > 0)
             agent.SetDestination(waypoints[0].position);
+        isReady = true;
     }
 
     void Update()
     {
-        if (player == null) return;
+        if (!isReady || player == null) return;
 
+        // ถ้าตายแล้วให้หยุด
+        CatEnemyHealth health = GetComponent<CatEnemyHealth>();
+        if (health != null && health.currentHP <= 0)
+        {
+            agent.isStopped = true;
+            return;
+        }
+
+        agent.isStopped = false;
         attackTimer -= Time.deltaTime;
+
         float distToPlayer = Vector3.Distance(transform.position, player.position);
 
         switch (currentState)
@@ -81,10 +98,10 @@ public class CatEnemy : MonoBehaviour
     void DoPatrol()
     {
         if (waypoints.Length == 0) return;
-
         agent.speed = patrolSpeed;
 
-        if (agent.remainingDistance < 0.5f && !agent.pathPending)
+        // เพิ่ม hasPath เช็คด้วยให้แน่ใจ
+        if (!agent.pathPending && agent.hasPath && agent.remainingDistance < 0.5f)
         {
             currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
             agent.SetDestination(waypoints[currentWaypoint].position);
@@ -100,7 +117,7 @@ public class CatEnemy : MonoBehaviour
     void DoAttack()
     {
         agent.SetDestination(transform.position);
-        transform.LookAt(player);
+        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
 
         if (attackTimer <= 0f)
         {
@@ -113,7 +130,6 @@ public class CatEnemy : MonoBehaviour
     void ChangeState(CatState newState)
     {
         currentState = newState;
-
         if (newState == CatState.Patrol && waypoints.Length > 0)
             agent.SetDestination(waypoints[currentWaypoint].position);
     }
