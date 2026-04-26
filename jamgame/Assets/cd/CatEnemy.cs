@@ -46,6 +46,14 @@ public class CatEnemy : MonoBehaviour
         isReady = true;
     }
 
+    // วัดระยะแบบ 2D ไม่สน Y เพื่อกันปัญหาความสูงทำให้ระยะคลาดเคลื่อน
+    float GetFlatDistance()
+    {
+        Vector3 selfFlat = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 playerFlat = new Vector3(player.position.x, 0, player.position.z);
+        return Vector3.Distance(selfFlat, playerFlat);
+    }
+
     void Update()
     {
         if (!isReady || player == null) return;
@@ -60,9 +68,7 @@ public class CatEnemy : MonoBehaviour
         agent.isStopped = false;
         attackTimer -= Time.deltaTime;
 
-        float distToPlayer = Vector3.Distance(transform.position, player.position);
-
-        Debug.Log($"State: {currentState} | dist: {distToPlayer}");
+        float distToPlayer = GetFlatDistance(); // ใช้ระยะ 2D แทน
 
         switch (currentState)
         {
@@ -73,7 +79,6 @@ public class CatEnemy : MonoBehaviour
                 break;
 
             case CatState.Chase:
-                Debug.Log("อยู่ใน Chase case!");
                 DoChase();
                 if (distToPlayer < attackRange)
                     ChangeState(CatState.Attack);
@@ -107,11 +112,8 @@ public class CatEnemy : MonoBehaviour
     void DoChase()
     {
         agent.speed = chaseSpeed;
-        Vector3 targetPos = new Vector3(player.position.x, transform.position.y, player.position.z);
-        NavMeshHit hit;
-        bool canReach = NavMesh.SamplePosition(targetPos, out hit, 5f, NavMesh.AllAreas);
-        Debug.Log($"Chase canReach: {canReach}");
-        agent.SetDestination(hit.position);
+        agent.stoppingDistance = attackRange - 0.1f;
+        agent.SetDestination(player.position);
     }
 
     void DoAttack()
