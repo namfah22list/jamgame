@@ -58,8 +58,8 @@ public class LizardController : MonoBehaviour
         if (Input.GetKey(KeyCode.X))
             tail.AddForce(forward * forwardForce, ForceMode.VelocityChange);
 
-        // 🖱️ หัวหันตามเมาส์ (เวอร์ชันแม่น)
-        RotateHeadToMouse();
+       
+      
 
         // 👅 ลิ้น (กด = จับ / ปล่อย = ขว้าง)
         if (Input.GetKeyDown(KeyCode.W))
