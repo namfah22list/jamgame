@@ -1808,6 +1808,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: jingjok
       objectReference: {fileID: 0}
+    - target: {fileID: 8392603212803854603, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9164654803122867364, guid: 6ca9daebeb3746c41a2eecebb1185ccd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.414278
@@ -3262,7 +3266,7 @@ GameObject:
   - component: {fileID: 1818549660}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3683,8 +3687,12 @@ MonoBehaviour:
   cam: {fileID: 1789678869}
   tongueLine: {fileID: 331730447}
   tailJoint: {fileID: 1738642973}
-  force: 100
+  sideForce: 15
+  forwardForce: 30
+  liftForce: 15
   torqueForce: 10
+  maxSpeed: 6
+  clingForce: 80
 --- !u!65 &2110824938
 BoxCollider:
   m_ObjectHideFlags: 0

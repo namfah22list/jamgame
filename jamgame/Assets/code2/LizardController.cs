@@ -17,6 +17,11 @@ public class LizardController : MonoBehaviour
     public float torqueForce = 10f;
     public float maxSpeed = 6f;
 
+    [Header("Wall Climb")]
+    public float clingForce = 80f;
+    private int wallContacts = 0;
+    private bool isClinging = false;
+
     void Start()
     {
         Debug.Log("LizardController ทำงานแล้ว");
@@ -93,15 +98,48 @@ public class LizardController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 🔒 จำกัดความเร็ว (คุมง่ายขึ้นมาก)
+        // 🧗 ตรวจว่ากำลังเกาะกำแพงไหม
+        isClinging = wallContacts > 0;
+
+        // รีเซ็ต counter ทุกเฟรม
+        wallContacts = 0;
+
+        // 🧲 ถ้าเกาะ → ปิดแรงโน้มถ่วง + ดูดเข้ากำแพง
+        if (isClinging)
+        {
+            body.useGravity = false;
+
+            // ดูดเข้าหากำแพง (ใช้ velocity ลดการหลุด)
+            body.velocity *= 0.98f; // กันเด้งออก
+        }
+        else
+        {
+            body.useGravity = true;
+        }
+
+        // 🔒 จำกัดความเร็ว
         if (body.velocity.magnitude > maxSpeed)
         {
             body.velocity = body.velocity.normalized * maxSpeed;
         }
 
-        // 🧍 พยุงตัวไม่ให้ล้มง่าย
+        // 🧍 พยุงตัว
         Vector3 torque = Vector3.Cross(transform.up, Vector3.up);
         body.AddTorque(torque * 150f);
+    }
+
+    void OnCollisionStay(Collision col)
+    {
+        if (col.gameObject.CompareTag("Wall"))
+        {
+            wallContacts++;
+
+            foreach (ContactPoint contact in col.contacts)
+            {
+                // 🧲 แรงดูดเข้ากำแพง
+                body.AddForce(-contact.normal * clingForce, ForceMode.Force);
+            }
+        }
     }
 
     void ShootTongue()
@@ -124,14 +162,6 @@ public class LizardController : MonoBehaviour
     {
         if (tongueJoint != null)
             Destroy(tongueJoint);
-    }
-
-    void OnCollisionStay(Collision col)
-    {
-        if (col.gameObject.CompareTag("Wall"))
-        {
-            body.AddForce(-col.contacts[0].normal * 50f);
-        }
     }
 
     void DetachTail()
