@@ -8,6 +8,7 @@ public class LizardController : MonoBehaviour
     public Camera cam;
     public LineRenderer tongueLine;
     private SpringJoint tongueJoint;
+    private Rigidbody grabbedObject;
     public ConfigurableJoint tailJoint;
 
     [Header("Force Settings")]
@@ -32,53 +33,35 @@ public class LizardController : MonoBehaviour
         Vector3 forward = transform.forward;
         Vector3 right = transform.right;
 
-        // 🟢 ขาหน้าซ้าย → ไปซ้าย
+        // 🐾 Movement
         if (Input.GetKey(KeyCode.Q))
-        {
             frontL.AddForce(-right * sideForce, ForceMode.VelocityChange);
-        }
 
-        // 🔵 ขาหน้าขวา → ไปขวา
         if (Input.GetKey(KeyCode.E))
-        {
             frontR.AddForce(right * sideForce, ForceMode.VelocityChange);
-        }
 
-        // 🟡 ขาหลังซ้าย → ซ้ายนิด + ไปหน้า
         if (Input.GetKey(KeyCode.A))
         {
             Vector3 dir = (-right * 0.5f + forward).normalized;
             backL.AddForce(dir * forwardForce, ForceMode.VelocityChange);
         }
 
-        // 🟠 ขาหลังขวา → ขวานิด + ไปหน้า
         if (Input.GetKey(KeyCode.D))
         {
             Vector3 dir = (right * 0.5f + forward).normalized;
             backR.AddForce(dir * forwardForce, ForceMode.VelocityChange);
         }
 
-        // 🔴 ตัว → ลอยนิด
         if (Input.GetKey(KeyCode.S))
-        {
             body.AddForce(Vector3.up * liftForce, ForceMode.VelocityChange);
-        }
 
-        // 🟣 หาง → ช่วยดันไปหน้า
         if (Input.GetKey(KeyCode.X))
-        {
             tail.AddForce(forward * forwardForce, ForceMode.VelocityChange);
-        }
 
-        // 🖱️ หัวหันตามเมาส์
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            Vector3 dir = hit.point - head.position;
-            head.AddTorque(dir.normalized * torqueForce);
-        }
+        // 🖱️ หัวหันตามเมาส์ (เวอร์ชันแม่น)
+        RotateHeadToMouse();
 
-        // 👅 ลิ้น
+        // 👅 ลิ้น (กด = จับ / ปล่อย = ขว้าง)
         if (Input.GetKeyDown(KeyCode.W))
         {
             ShootTongue();
@@ -86,7 +69,7 @@ public class LizardController : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.W))
         {
-            ReleaseTongue();
+            ReleaseTongue(true);
         }
 
         // 🐍 สลัดหาง
@@ -98,32 +81,24 @@ public class LizardController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 🧗 ตรวจว่ากำลังเกาะกำแพงไหม
         isClinging = wallContacts > 0;
-
-        // รีเซ็ต counter ทุกเฟรม
         wallContacts = 0;
 
-        // 🧲 ถ้าเกาะ → ปิดแรงโน้มถ่วง + ดูดเข้ากำแพง
         if (isClinging)
         {
             body.useGravity = false;
-
-            // ดูดเข้าหากำแพง (ใช้ velocity ลดการหลุด)
-            body.velocity *= 0.98f; // กันเด้งออก
+            body.velocity *= 0.98f;
         }
         else
         {
             body.useGravity = true;
         }
 
-        // 🔒 จำกัดความเร็ว
         if (body.velocity.magnitude > maxSpeed)
         {
             body.velocity = body.velocity.normalized * maxSpeed;
         }
 
-        // 🧍 พยุงตัว
         Vector3 torque = Vector3.Cross(transform.up, Vector3.up);
         body.AddTorque(torque * 150f);
     }
@@ -136,12 +111,14 @@ public class LizardController : MonoBehaviour
 
             foreach (ContactPoint contact in col.contacts)
             {
-                // 🧲 แรงดูดเข้ากำแพง
                 body.AddForce(-contact.normal * clingForce, ForceMode.Force);
             }
         }
     }
 
+    
+
+    // 👅 ยิงลิ้น
     void ShootTongue()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -150,18 +127,33 @@ public class LizardController : MonoBehaviour
         {
             if (hit.rigidbody != null)
             {
+                grabbedObject = hit.rigidbody;
+
                 tongueJoint = head.gameObject.AddComponent<SpringJoint>();
-                tongueJoint.connectedBody = hit.rigidbody;
-                tongueJoint.spring = 200f;
-                tongueJoint.damper = 10f;
+                tongueJoint.connectedBody = grabbedObject;
+
+                tongueJoint.spring = 300f;
+                tongueJoint.damper = 15f;
+                tongueJoint.maxDistance = 2f;
             }
         }
     }
 
-    void ReleaseTongue()
+    // 👅 ปล่อย + ขว้าง
+    void ReleaseTongue(bool throwObject)
     {
         if (tongueJoint != null)
+        {
+            Rigidbody obj = tongueJoint.connectedBody;
+
             Destroy(tongueJoint);
+
+            if (throwObject && obj != null)
+            {
+                Vector3 throwDir = head.transform.forward;
+                obj.AddForce(throwDir * 500f, ForceMode.Impulse);
+            }
+        }
     }
 
     void DetachTail()
