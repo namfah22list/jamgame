@@ -36,7 +36,10 @@ public class CatEnemy : MonoBehaviour
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
+        {
             player = playerObj.transform;
+            Debug.Log($"เจอ Player: {playerObj.name} ที่ {playerObj.transform.position}");
+        }
         else
             Debug.LogError("หา Player ไม่เจอ! ตรวจสอบว่า Player มี Tag = Player");
 
@@ -52,6 +55,7 @@ public class CatEnemy : MonoBehaviour
         Vector3 playerFlat = new Vector3(player.position.x, 0, player.position.z);
         return Vector3.Distance(selfFlat, playerFlat);
     }
+
     void Update()
     {
         if (!isReady || player == null) return;
@@ -68,8 +72,6 @@ public class CatEnemy : MonoBehaviour
         attackTimer -= Time.deltaTime;
 
         float distToPlayer = GetFlatDistance();
-
-        Debug.Log($"State: {currentState} | dist: {distToPlayer} | detectionRange: {detectionRange}");
 
         switch (currentState)
         {
@@ -95,6 +97,7 @@ public class CatEnemy : MonoBehaviour
                 break;
         }
     }
+
     void DoPatrol()
     {
         if (waypoints.Length == 0) return;
@@ -110,9 +113,10 @@ public class CatEnemy : MonoBehaviour
     void DoChase()
     {
         agent.speed = chaseSpeed;
-        agent.stoppingDistance = 0f; // ให้เดินชิดสุด
+        agent.stoppingDistance = 0f;
         agent.SetDestination(player.position);
     }
+
     void DoAttack()
     {
         agent.SetDestination(transform.position);
@@ -129,7 +133,6 @@ public class CatEnemy : MonoBehaviour
 
     void ChangeState(CatState newState)
     {
-        // ออกจาก Attack state → หยุด animation
         if (currentState == CatState.Attack && newState != CatState.Attack)
             catWalk?.StopAttackAnim();
 
