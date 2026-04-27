@@ -94,6 +94,8 @@ public class CatEnemy : MonoBehaviour
                 DoAttack();
                 if (distToPlayer > attackRange)
                     ChangeState(CatState.Chase);
+                if (distToPlayer > loseRange)
+                    ChangeState(CatState.Patrol);
                 break;
         }
     }
@@ -116,10 +118,9 @@ public class CatEnemy : MonoBehaviour
         agent.stoppingDistance = 0f;
         agent.SetDestination(player.position);
     }
-
     void DoAttack()
     {
-        agent.SetDestination(transform.position);
+        agent.SetDestination(player.position); // อัพเดทตาม player
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
 
         if (attackTimer <= 0f)
@@ -140,6 +141,12 @@ public class CatEnemy : MonoBehaviour
 
         if (newState == CatState.Patrol && waypoints.Length > 0)
             agent.SetDestination(waypoints[currentWaypoint].position);
+
+        if (newState == CatState.Chase)
+        {
+            attackTimer = 0f;
+            agent.SetDestination(player.position);
+        }
     }
 
     void OnDrawGizmosSelected()
