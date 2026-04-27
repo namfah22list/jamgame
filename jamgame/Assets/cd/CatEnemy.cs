@@ -73,6 +73,8 @@ public class CatEnemy : MonoBehaviour
 
         float distToPlayer = GetFlatDistance();
 
+        Debug.Log($"State: {currentState} | velocity: {agent.velocity.magnitude}");
+
         switch (currentState)
         {
             case CatState.Patrol:
@@ -83,7 +85,6 @@ public class CatEnemy : MonoBehaviour
 
             case CatState.Chase:
                 DoChase();
-                Debug.Log($"dist: {distToPlayer} | attackRange: {attackRange}");
                 if (distToPlayer < attackRange)
                     ChangeState(CatState.Attack);
                 else if (distToPlayer > loseRange)
@@ -99,7 +100,6 @@ public class CatEnemy : MonoBehaviour
                 break;
         }
     }
-
     void DoPatrol()
     {
         if (waypoints.Length == 0) return;
