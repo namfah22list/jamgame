@@ -6,10 +6,8 @@ public class WinTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            winPanel.SetActive(true);
-            Time.timeScale = 0f; // หยุดเกม
-        }
+        Debug.Log("ชนแล้วกับ: " + other.name);
+
+        winPanel.SetActive(true); // เปิดเลย ไม่ต้องเช็คก่อน
     }
 }
