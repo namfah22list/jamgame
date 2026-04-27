@@ -46,7 +46,6 @@ public class CatEnemy : MonoBehaviour
         isReady = true;
     }
 
-    // วัดระยะแบบ 2D ไม่สน Y เพื่อกันปัญหาความสูงทำให้ระยะคลาดเคลื่อน
     float GetFlatDistance()
     {
         Vector3 selfFlat = new Vector3(transform.position.x, 0, transform.position.z);
@@ -62,13 +61,14 @@ public class CatEnemy : MonoBehaviour
         if (health != null && health.currentHP <= 0)
         {
             agent.isStopped = true;
+            catWalk?.StopAttackAnim();
             return;
         }
 
         agent.isStopped = false;
         attackTimer -= Time.deltaTime;
 
-        float distToPlayer = GetFlatDistance(); // ใช้ระยะ 2D แทน
+        float distToPlayer = GetFlatDistance();
 
         switch (currentState)
         {
@@ -92,9 +92,6 @@ public class CatEnemy : MonoBehaviour
                     ChangeState(CatState.Chase);
                 break;
         }
-
-        if (catWalk != null)
-            catWalk.moveSpeed = agent.velocity.magnitude;
     }
 
     void DoPatrol()
@@ -114,6 +111,16 @@ public class CatEnemy : MonoBehaviour
         agent.speed = chaseSpeed;
         agent.stoppingDistance = attackRange - 0.1f;
         agent.SetDestination(player.position);
+
+        if (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathPartial)
+        {
+            float dist = GetFlatDistance();
+            if (dist > attackRange)
+            {
+                Vector3 dir = (player.position - transform.position).normalized;
+                agent.Move(dir * chaseSpeed * Time.deltaTime);
+            }
+        }
     }
 
     void DoAttack()
@@ -124,6 +131,10 @@ public class CatEnemy : MonoBehaviour
         if (attackTimer <= 0f)
         {
             attackTimer = attackCooldown;
+
+            // เล่น animation ยกขาหน้า
+            catWalk?.TriggerAttackAnim();
+
             player.GetComponent<PlayerHealth>()?.TakeDamage(attackDamage);
             Debug.Log($"แมวโจมตี! -{attackDamage} HP");
         }
@@ -131,7 +142,12 @@ public class CatEnemy : MonoBehaviour
 
     void ChangeState(CatState newState)
     {
+        // ออกจาก Attack state → หยุด animation
+        if (currentState == CatState.Attack && newState != CatState.Attack)
+            catWalk?.StopAttackAnim();
+
         currentState = newState;
+
         if (newState == CatState.Patrol && waypoints.Length > 0)
             agent.SetDestination(waypoints[currentWaypoint].position);
     }

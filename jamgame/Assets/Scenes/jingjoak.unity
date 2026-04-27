@@ -8130,7 +8130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2736139583844199493, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 21.5
+      value: 5.6
       objectReference: {fileID: 0}
     - target: {fileID: 2736139583844199493, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13080,7 +13080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8777d420157fe46826924934247834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  body: {fileID: 5557749219347755725}
   legFrontRight: {fileID: 886472567}
   legFrontLeft: {fileID: 1152843183}
   legBackRight: {fileID: 1431250636}
@@ -13094,7 +13094,11 @@ MonoBehaviour:
   tailSwingAngle: 40
   tailSwingSpeed: 2
   headBobAmount: 5
+  attackLegAngle: 60
+  attackBodyLift: 0.15
+  attackAnimSpeed: 8
   moveSpeed: 0
+  isAttacking: 0
 --- !u!114 &8741682495542553002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13123,7 +13127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   detectionRange: 50
-  attackRange: 2
+  attackRange: 0.8
   loseRange: 15
   patrolSpeed: 20.2
   chaseSpeed: 50
