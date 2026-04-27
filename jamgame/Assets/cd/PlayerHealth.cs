@@ -9,8 +9,8 @@ public class PlayerHealth : MonoBehaviour
     public float currentHP;
 
     [Header("UI (ไม่บังคับ)")]
-    public Slider hpSlider;        // ลาก Slider HP มาใส่ (ถ้ามี)
-    public TextMeshProUGUI hpText; // ลาก Text มาใส่ (ถ้ามี)
+    public Slider hpSlider;
+    public TextMeshProUGUI hpText;
 
     public bool isDead = false;
 
@@ -23,14 +23,10 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float amount)
     {
         if (isDead) return;
-
+        Debug.Log($"โดนตี {amount}");
         currentHP -= amount;
         currentHP = Mathf.Clamp(currentHP, 0f, maxHP);
-
-        Debug.Log($"Player โดนตี! HP: {currentHP}/{maxHP}");
-
         UpdateUI();
-
         if (currentHP <= 0f)
             Die();
     }
@@ -38,10 +34,8 @@ public class PlayerHealth : MonoBehaviour
     public void Heal(float amount)
     {
         if (isDead) return;
-
         currentHP += amount;
         currentHP = Mathf.Clamp(currentHP, 0f, maxHP);
-
         UpdateUI();
     }
 
@@ -49,8 +43,7 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = true;
         Debug.Log("Player ตายแล้ว! Game Over");
-        // ใส่ logic Game Over ตรงนี้
-        // เช่น SceneManager.LoadScene("GameOver");
+        gameObject.SetActive(false);
     }
 
     void UpdateUI()

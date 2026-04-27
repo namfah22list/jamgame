@@ -52,7 +52,6 @@ public class CatEnemy : MonoBehaviour
         Vector3 playerFlat = new Vector3(player.position.x, 0, player.position.z);
         return Vector3.Distance(selfFlat, playerFlat);
     }
-
     void Update()
     {
         if (!isReady || player == null) return;
@@ -70,6 +69,8 @@ public class CatEnemy : MonoBehaviour
 
         float distToPlayer = GetFlatDistance();
 
+        Debug.Log($"State: {currentState} | dist: {distToPlayer} | detectionRange: {detectionRange}");
+
         switch (currentState)
         {
             case CatState.Patrol:
@@ -80,6 +81,7 @@ public class CatEnemy : MonoBehaviour
 
             case CatState.Chase:
                 DoChase();
+                Debug.Log($"dist: {distToPlayer} | attackRange: {attackRange}");
                 if (distToPlayer < attackRange)
                     ChangeState(CatState.Attack);
                 else if (distToPlayer > loseRange)
@@ -93,7 +95,6 @@ public class CatEnemy : MonoBehaviour
                 break;
         }
     }
-
     void DoPatrol()
     {
         if (waypoints.Length == 0) return;
@@ -109,20 +110,9 @@ public class CatEnemy : MonoBehaviour
     void DoChase()
     {
         agent.speed = chaseSpeed;
-        agent.stoppingDistance = attackRange - 0.1f;
+        agent.stoppingDistance = 0f; // ให้เดินชิดสุด
         agent.SetDestination(player.position);
-
-        if (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathPartial)
-        {
-            float dist = GetFlatDistance();
-            if (dist > attackRange)
-            {
-                Vector3 dir = (player.position - transform.position).normalized;
-                agent.Move(dir * chaseSpeed * Time.deltaTime);
-            }
-        }
     }
-
     void DoAttack()
     {
         agent.SetDestination(transform.position);
@@ -131,10 +121,7 @@ public class CatEnemy : MonoBehaviour
         if (attackTimer <= 0f)
         {
             attackTimer = attackCooldown;
-
-            // เล่น animation ยกขาหน้า
             catWalk?.TriggerAttackAnim();
-
             player.GetComponent<PlayerHealth>()?.TakeDamage(attackDamage);
             Debug.Log($"แมวโจมตี! -{attackDamage} HP");
         }
