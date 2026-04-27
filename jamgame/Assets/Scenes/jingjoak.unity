@@ -1335,7 +1335,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 186504719}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 869494762}
+        m_TargetAssemblyTypeName: WinUI, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &186504719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2189,6 +2201,18 @@ MonoBehaviour:
   hpSlider: {fileID: 0}
   hpText: {fileID: 0}
   isDead: 0
+--- !u!114 &314881125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314881118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa859f1e771f7149a0b0b7f3e2aee9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &324290889
 GameObject:
   m_ObjectHideFlags: 0
@@ -4962,6 +4986,24 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.057000004, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &786130168 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3689670386930759721, guid: c726bfcdf3ad842acb677a25d9f13872, type: 3}
+  m_PrefabInstance: {fileID: 1286321982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &786130173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786130168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd97996b7c317ec43a325d7b0885ec99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winPanel: {fileID: 869494758}
 --- !u!1 &791455351
 GameObject:
   m_ObjectHideFlags: 0
@@ -5653,13 +5695,14 @@ GameObject:
   - component: {fileID: 869494759}
   - component: {fileID: 869494761}
   - component: {fileID: 869494760}
+  - component: {fileID: 869494762}
   m_Layer: 5
   m_Name: WinPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &869494759
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5721,6 +5764,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869494758}
   m_CullTransparentMesh: 1
+--- !u!114 &869494762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869494758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa859f1e771f7149a0b0b7f3e2aee9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &886963061 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5245927130461468389, guid: 7df9f3f2c0d604965971dc955ee37030, type: 3}
@@ -8295,6 +8350,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2513076761885438097, guid: c726bfcdf3ad842acb677a25d9f13872, type: 3}
       insertIndex: -1
       addedObject: {fileID: 215813236}
+    - targetCorrespondingSourceObject: {fileID: 3689670386930759721, guid: c726bfcdf3ad842acb677a25d9f13872, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 786130173}
   m_SourcePrefab: {fileID: 100100000, guid: c726bfcdf3ad842acb677a25d9f13872, type: 3}
 --- !u!4 &1286321983 stripped
 Transform:
@@ -10067,11 +10125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2119147986135387233, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
       propertyPath: moveForce
-      value: 80
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2119147986135387233, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
       propertyPath: turnForce
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2119147986135387233, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
       propertyPath: frontLegLift
@@ -10155,6 +10213,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4491690815841862953, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 314881122}
+    - targetCorrespondingSourceObject: {fileID: 4491690815841862953, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 314881125}
   m_SourcePrefab: {fileID: 100100000, guid: 20cf86f916a8d624eb9ea32ad011093c, type: 3}
 --- !u!1001 &1580364372
 PrefabInstance:
@@ -11131,7 +11192,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1714558835}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 869494762}
+        m_TargetAssemblyTypeName: WinUI, Assembly-CSharp
+        m_MethodName: Restart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1714558835
 MonoBehaviour:
   m_ObjectHideFlags: 0
